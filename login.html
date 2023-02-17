@@ -10,6 +10,11 @@
     <link rel="icon" href="./Assets/1655709966433.jpeg" type="image/x-icon">
   </head>
   <body>
+
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <div class="maincontent">
  <!--header-->
  
@@ -76,7 +81,7 @@
           </div>
         </form>
         </div>
-        <div class="sign-up-htm">
+        <!-- <div class="sign-up-htm">
           <form action="login.html" name="signUpForm" id="signupForm">
           <div class="group">
             <label for="user" class="label">First Name</label>
@@ -97,18 +102,19 @@
           <div class="group">
             <label for="pass" class="label">Repeat Password</label>
             <input id="repeatPassword" type="password" class="input" data-type="password" name="repwd">
-          </div>
-          <div class="spinnerContainer" id="signUpMessage">
+          </div> -->
+          <!-- <div class="spinnerContainer" id="signUpMessage">
      
-          </div>
-          <div class="group" id="signupContainer">
+          </div> -->
+          <!-- <div class="group" id="signupContainer">
             <input type="submit" id="signUp" class="button" value="Sign Up">
-          </div>
-          <div class="hr"></div>
+          </div> -->
+          <!-- <div class="hr"></div>
           <div class="foot-lnk">
             <label for="tab-1">Already Member?</a>
-          </div>
-          </form>
+          </div> -->
+          <!-- </form> -->
+          <div id="signUpContainer"></div>
         </div>
       </div>
     </div>
@@ -172,7 +178,7 @@
 
 
 <script src="./Js/index.js"></script>
-<script src="./Js/signup.js"></script>
+<script type="text/babel" src="./Js/signup.js"></script>
 <script src="./Js/login.js"></script>
 <script src="./Js/subscribe.js"></script>
 

@@ -1,64 +1,113 @@
-const firstName = document.getElementById('firstName');
-const lastName = document.getElementById('lastName');
-const userEmail = document.getElementById('userEmail');
-const userPassword = document.getElementById('userPassword');
-const repeatPassword = document.getElementById('repeatPassword');
-const signUpButton = document.getElementById('signUp');
-const signupForm = document.getElementById('signupForm');
-const signupContainer = document.getElementById('signupContainer');
-const signUpMessage = document.getElementById('signUpMessage'); 
-signUpMessage.style.display = "none"
 
+const {useState ,useEffect} = React;
 
-signUpButton.addEventListener("click", (event)=>{
-   event.preventDefault();
-   signUpMessage.style.display = "block"
-   signUpMessage.innerHTML = `<img src="../Assets/loading1.gif" alt="" width="8%">`
-   signUp();
-})
+function SignUpForm() {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const [signUpMessage, setSignUpMessage] = useState('');
+  const handleSignUp = (event) => {
+    event.preventDefault();
+    setSignUpMessage('Signing up...');
+    const data = {
+      firstName: firstName,
+      lastName: lastName,
+      email: userEmail,
+      password: userPassword,
+      repeatPassword: repeatPassword,
+    };
 
-function signUp(){
-
-  const data = {
-      firstName: firstName.value, 
-      lastName: lastName.value,
-      email: userEmail.value,
-      password: userPassword.value,
-      repeatPassword: repeatPassword.value
-  }
-
-  const sendData = {
-      method: "POST",
+    fetch('http://localhost:5000/api/createUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(data),
-      headers: new Headers({'Content-Type': 'application/json; charset=UTF-8'})
-  }
+    })
+      .then((response) => response.json())
+     
+      .then((data) =>   {
+        console.log(data)
+        if (data.message) {
+          setSignUpMessage(data.message);
+        } else if (data.successMessage) {
+          setSignUpMessage(data.successMessage);
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 3000);
+        } else if (data.validationError) {
+          setSignUpMessage(data.validationError);
+        } else {
+          setSignUpMessage('Something went wrong, we were unable to register this account!');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        setSignUpMessage('Something went wrong, please try again later.');
+      });
+};
 
-fetch("http://localhost:5000/api/createUser", sendData)
-.then(response => response.json())
-.then((fetchedData)=>{
-  console.log(fetchedData)
-
-  if (fetchedData.message){
-      signUpMessage.style.color = "red"
-      signUpMessage.innerHTML = fetchedData.message
-  }
-
-  else if (fetchedData.successMessage){
-      signUpMessage.style.color = "green"
-      signUpMessage.innerHTML = fetchedData.successMessage
-      signupForm.reset()
-      setTimeout(()=>{location = "login.html"}, 3000)
-  }
-
-  else if (fetchedData.validationError){
-      signUpMessage.style.color = "red"
-      signUpMessage.innerHTML = fetchedData.validationError
-  }
-
-  else {
-      signUpMessage.style.color = "red"
-      signUpMessage.innerHTML = "Something went wrong, we were unable to register this account!"
-  }
-}) 
+  return (
     
-  }
+
+    <div className="sign-up-htm">
+    <form onSubmit={handleSignUp} name="signUpForm" id="signupForm">
+    <div className="group">
+      <label htmlFor="user" className="label">First Name</label>
+      <input id="firstName" type="text" className="input" name="fname"
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+            />
+    </div>
+    <div className="group">
+      <label htmlFor="user" className="label">Last Name</label>
+      <input id="lastName" type="text" className="input" name="lname"
+      
+      value={lastName}
+           onChange={(event) => setLastName(event.target.value)}
+      />
+    </div>
+    <div className="group">
+      <label htmlFor="pass" className="label">Email Address</label>
+      <input id="userEmail" type="email" className="input"  name="emaddress"
+       value={userEmail}
+       onChange={(event) => setUserEmail(event.target.value)}
+      />
+    </div>
+    <div className="group">
+      <label htmlFor="pass" className="label">Password</label>
+      <input id="userPassword" type="password" className="input" data-type="password" name="pwd"
+      value={userPassword}
+       onChange={(event) =>setUserPassword(event.target.value)}
+      />
+    </div>
+    <div className="group">
+      <label htmlFor="pass" className="label">Repeat Password</label>
+      <input id="repeatPassword" type="password" className="input" data-type="password" name="repwd"
+       value={repeatPassword}
+       onChange={(event) => setRepeatPassword(event.target.value)}
+      />
+    </div> 
+     <div className="spinnerContainer" id="signUpMessage">
+
+    </div> 
+     <div className="group" id="signupContainer">
+      <input type="submit" id="signUp" className="button" value="Sign Up"/>
+    </div> 
+     <div className="hr"></div>
+    <div className="foot-lnk">
+      {/* <label for="tab-1">Already Member?</a> */}
+    </div>
+    </form> 
+    <div id="signUpContainer"></div>
+</div>
+
+
+  )}
+            ReactDOM.render(<SignUpForm/> , document.getElementById("signUpContainer"))
+  
+  
+        
+
