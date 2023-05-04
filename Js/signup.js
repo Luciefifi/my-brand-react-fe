@@ -19,7 +19,7 @@ function SignUpForm() {
       repeatPassword: repeatPassword,
     };
 
-    fetch('http://localhost:5000/api/createUser', {
+    fetch('https://nice-ruby-squid-slip.cyclic.app/api/createUser', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

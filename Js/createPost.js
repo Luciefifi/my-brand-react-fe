@@ -111,7 +111,7 @@ function CreatePost() {
           'Content-Type': 'application/json; charset=UTF-8',
         }),
       };
-      fetch('http://localhost:5000/api/create', sendData)
+      fetch('https://nice-ruby-squid-slip.cyclic.app/api/create', sendData)
         .then((response) => response.json())
         .then((fetchedData) => {
           if (fetchedData.successMessage) {
